@@ -165,7 +165,7 @@ app.listen(3000, () => {
 
 */
 
-import express, { Request, Response } from 'express';
+/*import express, { Request, Response } from 'express';
 
 const app = express();
 
@@ -204,4 +204,15 @@ app.use('/calculator/:operation/:nombre1/:nombre2', (req: Request, res: Response
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
+});
+*/
+import express from "express";
+import calculatorRouter from "./routes/calculator";
+
+const app = express();
+
+app.use("/", calculatorRouter);
+
+app.listen(3000, () => {
+  console.log("Server listening on port 3000");
 });
