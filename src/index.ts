@@ -54,46 +54,154 @@ app.use('/handCheck/:a/:b', (req: Request, res: Response) => {
 app.listen(6002, () => {
     console.log("server listenning on 6002");
 });*/
-//***************BELGACEM***************/
-import process from 'process';
-
-import express, { Request, Response } from "express";
+//***************wael fraj *************** 
+/*
+import express, {
+  NextFunction,
+  Request,
+  Response,
+} from "express";
 const app = express();
-const port = process.env.PORT || 3000;
-/**claddes typr class object <t>
- * {}
- */
-app.use("/helloworld", (req: Request, res: Response) => {
-//   console.log(req);
-//   const {
-//     params: { a, b },
-//   } = req;
-  //   console.log('variable a',a)
-  //   console.log('variable b',b)
-  const {n1: numberOne,n2: numberTow} = req.query
 
-  const sum = Number(numberOne) + Number(numberTow);
+const verif = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const {
+    params: { op, a, b },
+  } = req;
+  var x: number = +a;
+  var y: number = +b;
 
-  res.status(200).send(`la somme de ${numberOne} et ${numberTow} est ${sum}`);
+  if (
+    !Number.isNaN(x) &&
+    !Number.isNaN(y)
+  ) {
+    if (
+      op === "sum" ||
+      op === "sous" ||
+      op === "mult" ||
+      op === "div"
+    )
+      next();
+    else {
+      res.send(
+        "Error: you must choose sum or sous or mult ou div"
+      );
+    }
+  } else {
+    res.send(
+      "Error: a ou b not number"
+    );
+  }
+};
 
-  
- 
+const calcul = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const {
+    params: { op, a, b },
+  } = req;
+  var x: number = +a;
+  var y: number = +b;
+  var s;
 
-  //http://localhost:6002/helloworld/5/3    /helloworld/:a/:b
+  switch (op) {
+    case "sum":
+      res
+      .status(200)
+      .send(
+        `la resultat de l'operation ${op} de ${a} et ${b} est egale a ${x+y}`
+      );
+      break;
+    case "sous":
+      res
+      .status(200)
+      .send(
+        `la resultat de l'operation ${op} de ${a} et ${b} est egale a ${x-y}`
+      );  
+    break;
+    case "mult":
+      res
+      .status(200)
+      .send(
+        `la resultat de l'operation ${op} de ${a} et ${b} est egale a ${x*y}`
+      ); 
+    break;
+    case "div":
+      res
+      .status(200)
+      .send(
+        `la resultat de l'operation ${op} de ${a} et ${b} est egale a ${x/y}`
+      );   
+    break;
+      default:
+        break;
+      }
+    
+};
+
+app.get("/:op/:a/:b",verif,calcul);
+
+app.listen(3000, () => {
+  console.log(
+    "Server listening on port 3000"
+  );
 });
-app.listen(port, () => {
-  console.log(`server listening on ${port}`);
-});
-/**La première ligne importe les modules nécessaires, y compris Express qui est affecté 
- * à la variable express, et les types de requête et de réponse qui sont importés en tant
- *  que Request et Response.cd
-Ensuite, une instance de l'application Express est créée en appelant la fonction express() 
-et stockée dans la variable app.
-Une fois l'application créée, un middleware est défini en utilisant la méthode use() de
- l'application. Ce middleware répondra à toutes les requêtes GET envoyées à l'URL "/helloworld".
-  Lorsque cette route est appelée, la chaîne "incoming request ..." sera écrite dans la console
-   et le texte "hello from app" sera envoyé en réponse avec un code d'état HTTP 200.
 
-Enfin, la méthode listen() est utilisée pour démarrer le serveur et le faire écouter 
-les connexions entrantes sur le port 6000. Lorsque le serveur démarre, la chaîne "server 
-listening on 6000" sera écrite dans la console. */
+/*
+
+   
+    
+  }
+);
+*/
+
+/*
+
+
+*/
+
+import express, { Request, Response } from 'express';
+
+const app = express();
+
+function faireCalcic(operation: string, nombre1: number, nombre2: number): string {
+  let resultat: number;
+
+  switch(operation) {
+    case "+":
+      resultat = nombre1 + nombre2;
+      break;
+    case "-":
+      resultat = nombre1 - nombre2;
+      break;
+    case "*":
+      resultat = nombre1 * nombre2;
+      break;
+    case "/":
+      if (nombre2 === 0) {
+        return "Erreur: Division par zéro est impossible.";
+      }
+      resultat = nombre1 / nombre2;
+      break;
+    default:
+      return "Erreur: Opérateur invalide.";
+  }
+
+  return `{ operation: ${operation}, nombre 1: ${nombre1}, nombre 2: ${nombre2}, resultat: ${resultat}}`;
+}
+
+app.use('/calculator/:operation/:nombre1/:nombre2', (req: Request, res: Response) => {
+  const { operation, nombre1, nombre2 } = req.params;
+  const resultat = faireCalcic(operation, Number(nombre1), Number(nombre2));
+
+  res.status(200).send(resultat);
+});
+
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
