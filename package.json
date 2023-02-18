@@ -1,0 +1,23 @@
+{
+  "name": "wadi2mern",
+  "version": "1.0.0",
+  "description": "test de typescript",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "star": "ts-node-dev --respawn --transpile-only src/main.ts",
+    "starts": "ts-node-dev --respawn --transpile-only src/numbers.ts"
+  },
+  "keywords": [],
+  "author": "Ahmed_elwadi",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "typescript": "^4.9.5"
+  }
+}
